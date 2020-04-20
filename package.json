@@ -16,6 +16,7 @@
     "svelte": "^3.0.0"
   },
   "dependencies": {
+    "@esri/calcite-components": "^1.0.0-beta.24",
     "sirv-cli": "^0.4.4"
   }
 }

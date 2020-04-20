@@ -1,4 +1,5 @@
 <script>
+	import { Calcite } from '@esri/calcite-components';
 	export let name;
 </script>
 
