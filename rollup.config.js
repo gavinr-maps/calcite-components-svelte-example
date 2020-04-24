@@ -3,6 +3,7 @@ import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
+import copy from 'rollup-plugin-copy';
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -25,6 +26,12 @@ export default {
 			}
 		}),
 
+		copy({
+			targets: [
+				{ src: 'node_modules/@esri/calcite-components/dist/calcite/', dest: 'public/build/' }
+			]
+		}),
+
 		// If you have external dependencies installed from
 		// npm, you'll most likely need these plugins. In
 		// some cases you'll need additional configuration -
@@ -34,6 +41,7 @@ export default {
 			browser: true,
 			dedupe: ['svelte']
 		}),
+
 		commonjs(),
 
 		// In dev mode, call `npm run start` once
