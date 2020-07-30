@@ -10,7 +10,8 @@
     <link rel="stylesheet" href="/global.css" />
     <link rel="stylesheet" href="/build/bundle.css" />
 
-    <script defer src="/build/bundle.js"></script>
+    <!-- type="module" required because we're exporting as "es" (see rollup.config.js) -->
+    <script defer src="/build/main.js" type="module"></script>
   </head>
 
   <body></body>

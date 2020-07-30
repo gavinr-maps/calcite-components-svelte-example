@@ -3,6 +3,9 @@ import resolve from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
 import livereload from "rollup-plugin-livereload";
 import { terser } from "rollup-plugin-terser";
+import copy from "rollup-plugin-copy";
+import postcss from "rollup-plugin-postcss";
+import path from "path";
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -10,11 +13,17 @@ export default {
   input: "src/main.js",
   output: {
     sourcemap: true,
-    format: "iife",
+    // note that this set to ES makes your app less compatible with older
+    // browsers, but this seems to be required for usage with calcite-components
+    format: "es",
     name: "app",
-    file: "public/build/bundle.js",
+    dir: path.resolve("public/build"),
   },
   plugins: [
+    postcss({
+      extensions: [".css"],
+    }),
+
     svelte({
       // enable run-time checks when not in production
       dev: !production,
@@ -35,14 +44,27 @@ export default {
       dedupe: ["svelte"],
     }),
     commonjs(),
-
+    copy({
+      targets: [
+        {
+          src: "node_modules/@esri/calcite-components/dist/calcite/assets",
+          dest: "public/build",
+        },
+      ],
+    }),
     // In dev mode, call `npm run start` once
     // the bundle has been generated
     !production && serve(),
 
     // Watch the `public` directory and refresh the
     // browser on changes when not in production
-    !production && livereload("public"),
+    !production &&
+      livereload({
+        watch: "public",
+        // the "copy" task above does not play well with livereload - so tell
+        // livereload to ignore the assets folder that we're copying in:
+        exclusions: [/assets/],
+      }),
 
     // If we're building for production (npm run build
     // instead of npm run dev), minify
