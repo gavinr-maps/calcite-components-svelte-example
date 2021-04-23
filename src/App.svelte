@@ -1,5 +1,11 @@
 <script>
 	export let name;
+
+	import '@esri/calcite-components/dist/calcite/calcite.css';
+	import { defineCustomElements, setAssetPath } from '@esri/calcite-components/dist/custom-elements';
+
+	setAssetPath(window.location + "build/main.js");
+	defineCustomElements();
 </script>
 
 <main>
@@ -9,7 +15,7 @@
 	<p>
 
 		<calcite-icon icon="banana" />
-		
+
 		<calcite-dropdown>
 			<calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
 			<calcite-dropdown-group>
