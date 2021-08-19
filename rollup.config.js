@@ -4,7 +4,6 @@ import resolve from '@rollup/plugin-node-resolve';
 import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
 import css from 'rollup-plugin-css-only';
-import copy from 'rollup-plugin-copy';
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -59,27 +58,13 @@ export default {
 		}),
 		commonjs(),
 
-		copy({
-			targets: [
-				{
-					src: "node_modules/@esri/calcite-components/dist/calcite/assets",
-					dest: "public/build",
-				},
-			],
-		}),
-
 		// In dev mode, call `npm run start` once
 		// the bundle has been generated
 		!production && serve(),
 
 		// Watch the `public` directory and refresh the
 		// browser on changes when not in production
-		!production && livereload({
-			watch: "public",
-			// the "copy" task above does not play well with livereload - so tell
-			// livereload to ignore the assets folder that we're copying in:
-			exclusions: [/assets/],
-		}),
+		!production && livereload('public'),
 
 		// If we're building for production (npm run build
 		// instead of npm run dev), minify
