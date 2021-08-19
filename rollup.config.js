@@ -59,6 +59,7 @@ export default {
 		}),
 		commonjs(),
 
+		// Copy the calcite icons: https://developers.arcgis.com/calcite-design-system/framework-examples/rollup/
 		copy({
 			targets: [
 				{
@@ -66,6 +67,7 @@ export default {
 					dest: "public/build",
 				},
 			],
+			copyOnce: true
 		}),
 
 		// In dev mode, call `npm run start` once
